@@ -10,5 +10,6 @@ public final class Listeners {
         PluginManager pm = assist.getServer().getPluginManager();
 
         pm.registerEvents(new PlayerListener(), assist);
+        pm.registerEvents(new ServerListener(), assist);
     }
 }

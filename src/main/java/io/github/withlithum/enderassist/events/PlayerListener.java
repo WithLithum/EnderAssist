@@ -1,13 +1,20 @@
 package io.github.withlithum.enderassist.events;
 
+import io.github.withlithum.enderassist.io.PlayerProfileManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.*;
 
 public class PlayerListener implements Listener {
     private static final Map<UUID, Long> LastDeath = new HashMap<>();
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        PlayerProfileManager.ensure(event.getPlayer().getUniqueId());
+    }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {

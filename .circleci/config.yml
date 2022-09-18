@@ -8,4 +8,16 @@ jobs:
       - image: cimg/openjdk:8.0
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }} # appends cache key with a hash of pom.xml file
+            - v1-dependencies- # fallback in case previous cache key is not found
       - run: ./mvnw package
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+        root: ./
+        paths:
+           - target/EnderAssist-*.jar

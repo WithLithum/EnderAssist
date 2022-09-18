@@ -18,7 +18,6 @@ package io.github.withlithum.enderassist.events;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.attribute.Attribute;
@@ -27,6 +26,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.projectiles.ProjectileSource;
@@ -38,15 +38,29 @@ public class EntityListener implements Listener {
 
         if (killer != null) {
             killer.playSound(killer.getLocation(), Sound.BLOCK_PISTON_CONTRACT, SoundCategory.MASTER,1.0f, 1.0f);
-            killer.sendActionBar(Component.text(event.getEntity().getName()).decorate(TextDecoration.ITALIC)
-                            .append(Component.text("|").color(NamedTextColor.WHITE))
+            killer.sendActionBar(Component.text(event.getEntity().getName()).color(NamedTextColor.GRAY)
+                            .append(Component.text(" |").color(NamedTextColor.WHITE))
                     .append(Component.text(" ☠ ").color(NamedTextColor.RED)));
         }
     }
 
     @EventHandler
     public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player)) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_SWEEP_ATTACK) {
+            return;
+        }
+        Player player;
+
+        if (event.getDamager() instanceof Player) {
+            player = (Player) event.getDamager();
+        } else if (event.getDamager() instanceof Projectile) {
+            Projectile projectile = (Projectile) event.getDamager();
+            if (!(projectile.getShooter() instanceof Player)) {
+                return;
+            }
+
+            player = (Player) projectile.getShooter();
+        } else {
             return;
         }
 
@@ -54,15 +68,14 @@ public class EntityListener implements Listener {
             return;
         }
 
-        Player player = (Player) event.getDamager();
         Mob target = (Mob) event.getEntity();
         AttributeInstance maxHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (maxHealth == null) {
             return;
         }
 
-        Component component = Component.text(target.getName())
-                .append(Component.text('[').color(NamedTextColor.WHITE))
+        Component component = Component.text(target.getName()).color(NamedTextColor.GRAY)
+                .append(Component.text(" [").color(NamedTextColor.WHITE))
                 .append(Component.text(Math.round(target.getHealth() - event.getDamage())).color(NamedTextColor.RED))
                 .append(Component.text('/').color(NamedTextColor.GRAY))
                 .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
@@ -103,11 +116,5 @@ public class EntityListener implements Listener {
         Player player = (Player) launcher;
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 1.0f, 1.0f);
-        player.sendActionBar(Component.text(hit.getName())
-                .append(Component.text('[').color(NamedTextColor.WHITE))
-                .append(Component.text(Math.round(target.getHealth())).color(NamedTextColor.RED))
-                .append(Component.text('/').color(NamedTextColor.GRAY))
-                .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
-                .append(Component.text("] ").color(NamedTextColor.WHITE)));
     }
 }

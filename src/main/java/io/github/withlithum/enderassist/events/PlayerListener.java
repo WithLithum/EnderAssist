@@ -45,7 +45,7 @@ public class PlayerListener implements Listener {
         }
 
         BlockData data = event.getClickedBlock().getBlockData();
-        if ((data.getMaterial() == Material.WHEAT_SEEDS || data.getMaterial() == Material.POTATOES
+        if ((data.getMaterial() == Material.WHEAT || data.getMaterial() == Material.POTATOES
             || data.getMaterial() == Material.CARROTS || data.getMaterial() == Material.BEETROOTS)
         && data instanceof Ageable){
             Ageable ageable = (Ageable) data;

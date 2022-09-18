@@ -18,6 +18,6 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
       - persist_to_workspace:
-        root: ./
-        paths:
-           - target/EnderAssist-*.jar
+          root: ./
+          paths:
+            - target/EnderAssist-*.jar

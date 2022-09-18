@@ -18,6 +18,7 @@ package io.github.withlithum.enderassist.io;
 
 import io.github.withlithum.enderassist.EnderAssist;
 import org.dizitart.no2.Nitrite;
+import org.dizitart.no2.collection.NitriteId;
 import org.dizitart.no2.mvstore.MVStoreModule;
 import org.dizitart.no2.repository.ObjectRepository;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public final class PlayerProfileManager {
     }
 
     public static PlayerProfile get(UUID uuid) {
-        PlayerProfile result = repository.getById(uuid);
+        PlayerProfile result = repository.getById(NitriteId.createId(uuid.toString()));
 
         if (result == null)
         {

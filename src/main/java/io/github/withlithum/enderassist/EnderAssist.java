@@ -21,6 +21,7 @@ import io.github.withlithum.enderassist.events.Listeners;
 import io.github.withlithum.enderassist.io.PlayerProfileManager;
 import io.github.withlithum.enderassist.support.SyncTask;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.Messenger;
 
 public final class EnderAssist extends JavaPlugin {
 
@@ -36,6 +37,12 @@ public final class EnderAssist extends JavaPlugin {
 
         syncTask = createSyncTask();
         Listeners.register(this, syncTask);
+
+        syncTask.runTaskTimer(this, 0L, 1L);
+
+        Messenger messenger = getServer().getMessenger();
+        messenger.registerOutgoingPluginChannel(this, SyncTask.SATURATION_KEY);
+        messenger.registerOutgoingPluginChannel(this, SyncTask.EXHAUSTION_KEY);
     }
 
     @Override

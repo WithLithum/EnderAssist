@@ -16,7 +16,6 @@
 
 package io.github.withlithum.enderassist.io;
 
-import org.dizitart.no2.collection.NitriteId;
 import org.dizitart.no2.repository.annotations.Entity;
 import org.dizitart.no2.repository.annotations.Id;
 
@@ -26,7 +25,7 @@ import java.util.UUID;
 public class PlayerProfile {
     public PlayerProfile(UUID uuid) {
         this.uuid = uuid;
-        this.id = NitriteId.createId(uuid.toString());
+        this.id = uuid.getMostSignificantBits();
     }
 
     private boolean showStatus;
@@ -34,7 +33,7 @@ public class PlayerProfile {
     private UUID uuid;
 
     @Id
-    private NitriteId id;
+    private long id;
 
     public UUID uuid() {
         return uuid;
@@ -42,7 +41,7 @@ public class PlayerProfile {
 
     public void uuid(UUID value) {
         uuid = value;
-        this.id = NitriteId.createId(uuid.toString());
+        this.id = uuid.getMostSignificantBits();
     }
 
     public boolean showStatus() {

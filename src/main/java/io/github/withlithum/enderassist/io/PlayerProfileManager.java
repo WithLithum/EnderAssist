@@ -18,13 +18,15 @@ package io.github.withlithum.enderassist.io;
 
 import io.github.withlithum.enderassist.EnderAssist;
 import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.collection.NitriteId;
 import org.dizitart.no2.mvstore.MVStoreModule;
+import org.dizitart.no2.repository.Cursor;
 import org.dizitart.no2.repository.ObjectRepository;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.UUID;
+
+import static org.dizitart.no2.filters.FluentFilter.*;
 
 public final class PlayerProfileManager {
     private PlayerProfileManager() {}
@@ -58,16 +60,26 @@ public final class PlayerProfileManager {
     }
 
     public static PlayerProfile get(UUID uuid) {
-        PlayerProfile result = repository.getById(NitriteId.createId(uuid.toString()));
+        Cursor<PlayerProfile> cursor = repository.find(where("uuid").eq(uuid));
 
-        if (result == null)
-        {
-            PlayerProfile created = new PlayerProfile(uuid);
-            repository.insert(created);
-            return created;
+        if (cursor.isEmpty()) {
+            PlayerProfile pf = new PlayerProfile(uuid);
+            repository.insert(pf);
+            return pf;
         }
 
-        return result;
+        if (cursor.size() > 1) {
+            throw new IllegalStateException("You cannot have two profiles with same UUID!");
+        }
+
+        for (PlayerProfile profile : cursor) {
+            // SonarLint users: Blame nitrite for this
+            return profile;
+        }
+
+        PlayerProfile pf = new PlayerProfile(uuid);
+        repository.insert(pf);
+        return pf;
     }
 
     public static void put(PlayerProfile profile) {

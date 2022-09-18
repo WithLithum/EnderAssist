@@ -18,9 +18,16 @@ package io.github.withlithum.enderassist;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 public final class PlayerUtil {
     private PlayerUtil() {}
@@ -41,6 +48,30 @@ public final class PlayerUtil {
         invalidArgsFormat = cfg.getString("message-format.invalid-args", "&c⚠ &e%1$s: &f&l参数无效: &c%3%s");
         alertFormat = cfg.getString("message-format.alert", "&c⚠ &e%s");
     }
+
+    public static List<Entity> getNearbyEntities(Location loc, double range) {
+        List<Entity> entities = loc.getWorld().getEntities();
+        TreeMap<Double, Entity> rtrn = new TreeMap<>();
+        for (Entity en : entities) {
+            if (en.getLocation().distance(loc) > range) {
+                continue;
+            }
+            rtrn.put(en.getLocation().distance(loc), en);
+        }
+        return new ArrayList<>(rtrn.values());
+    }
+
+    public static List<Player> getNearbyPlayers(Location loc, double range){
+        List<Player> nearby = new ArrayList<>();
+
+        for (Entity e : getNearbyEntities(loc, range)){
+            if (e instanceof Player){
+                nearby.add((Player) e);
+            }
+        }
+        return nearby;
+    }
+
 
     public static void sendAlert(CommandSender sender, String message) {
         sendFormat(alertFormat, sender, message);

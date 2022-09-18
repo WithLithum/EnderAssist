@@ -16,10 +16,8 @@
 
 package io.github.withlithum.enderassist.events;
 
-import org.bukkit.CropState;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import io.github.withlithum.enderassist.PlayerUtil;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
@@ -27,10 +25,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.raid.RaidTriggerEvent;
+
 import java.util.*;
 
 public class PlayerListener implements Listener {
     private static final Map<UUID, Long> LastDeath = new HashMap<>();
+
+    @EventHandler
+    public void onTriggerRaid(RaidTriggerEvent event) {
+        Bukkit.getServer().broadcast(PlayerUtil.getInfo(String.format(PlayerUtil.msg("raid_msg"),
+                event.getPlayer().getName())));
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {

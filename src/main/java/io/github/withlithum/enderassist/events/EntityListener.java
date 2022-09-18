@@ -16,22 +16,65 @@
 
 package io.github.withlithum.enderassist.events;
 
+import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
+import com.destroystokyo.paper.event.entity.EndermanEscapeEvent;
+import io.github.withlithum.enderassist.PlayerUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
 public class EntityListener implements Listener {
+    @EventHandler
+    public void onCreatureSpawn(CreatureSpawnEvent event) {
+        if (event.getEntity().getType() == EntityType.WANDERING_TRADER) {
+            Location location = event.getLocation();
+
+            Bukkit.getServer().broadcast(PlayerUtil.getInfo(String.format(PlayerUtil.msg("trader_msg"),
+                    location.getBlockX(),
+                    location.getBlockY(),
+                    location.getBlockZ())));
+            return;
+        }
+
+        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.PATROL) {
+            return;
+        }
+
+        LivingEntity entity = event.getEntity();
+        EntityEquipment equipment = entity.getEquipment();
+
+        if (equipment == null) {
+            return;
+        }
+
+        ItemStack helmet = equipment.getHelmet();
+
+        if (helmet == null) {
+            return;
+        }
+
+        if (helmet.getType() != Material.WHITE_BANNER) {
+            return;
+        }
+
+        Location location = entity.getLocation();
+        Bukkit.getServer().broadcast(PlayerUtil.getInfo(String.format(PlayerUtil.msg("patrol_msg"),
+                location.getBlockX(),
+                location.getBlockY(),
+                location.getBlockZ())));
+    }
+
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Player killer = event.getEntity().getKiller();
@@ -42,6 +85,13 @@ public class EntityListener implements Listener {
                             .append(Component.text(" |").color(NamedTextColor.WHITE))
                     .append(Component.text(" ☠ ").color(NamedTextColor.RED)));
         }
+    }
+
+    @EventHandler
+    public void onEndermanAttack(EndermanAttackPlayerEvent event) {
+        // 末影人试图攻击玩家时将会令其发光10秒
+        event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
+                10, 0));
     }
 
     @EventHandler

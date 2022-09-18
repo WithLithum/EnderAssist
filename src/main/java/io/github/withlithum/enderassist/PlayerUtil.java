@@ -47,10 +47,16 @@ public final class PlayerUtil {
     }
 
     public static void sendFormat(String format, CommandSender sender, String message) {
-        String formatted = String.format(format, message);
-        Component comp = LegacyComponentSerializer.legacy('&').deserialize(formatted);
+        sender.sendMessage(getFormat(format, message));
+    }
 
-        sender.sendMessage(comp);
+    public static Component getInfo(String message) {
+        return getFormat(infoFormat, message);
+    }
+
+    public static Component getFormat(String format, String message) {
+        String formatted = String.format(format, message);
+        return LegacyComponentSerializer.legacy('&').deserialize(formatted);
     }
 
     public static void sendInfo(CommandSender sender, String message) {

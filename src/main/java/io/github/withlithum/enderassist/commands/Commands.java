@@ -18,12 +18,22 @@ package io.github.withlithum.enderassist.commands;
 
 import io.github.withlithum.enderassist.EnderAssist;
 import io.github.withlithum.enderassist.PlayerUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.command.TabCompleter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class Commands {
+    private static final EmptyCompleter EMPTY_COMPLETER = new EmptyCompleter();
+
     private Commands() {}
     private static EnderAssist assist;
 
@@ -31,9 +41,26 @@ public final class Commands {
     {
         Commands.assist = assist;
         get("bed").setExecutor(new BedCommand());
+        get("bed").setTabCompleter(EMPTY_COMPLETER);
+
         get("enderassist").setExecutor(new MetaCommand());
+
         get("tps").setExecutor(new TpsCommand());
+        get("tps").setTabCompleter(EMPTY_COMPLETER);
+
+        // show status
+        PluginCommand command = get("showstatus");
+        ShowStatusCommand cmd = new ShowStatusCommand();
+
+        command.setExecutor(cmd);
+        command.setTabCompleter(EMPTY_COMPLETER);
     }
+
+    public static Component onOff(boolean bool) {
+        return bool ? Component.text(PlayerUtil.msg("on")).color(NamedTextColor.GREEN) :
+        Component.text(PlayerUtil.msg("off")).color(NamedTextColor.RED);
+    }
+
 
     public static PluginCommand get(String name)
     {

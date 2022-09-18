@@ -28,6 +28,7 @@ public final class Listeners {
 
         pm.registerEvents(new PlayerListener(), assist);
         pm.registerEvents(new ServerListener(), assist);
+        pm.registerEvents(new EntityListener(), assist);
         pm.registerEvents(new SyncTaskListener(task), assist);
     }
 }

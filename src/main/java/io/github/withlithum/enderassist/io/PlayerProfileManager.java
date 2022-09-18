@@ -16,42 +16,46 @@
 
 package io.github.withlithum.enderassist.io;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import io.github.withlithum.enderassist.EnderAssist;
-import org.dizitart.no2.Nitrite;
-import org.dizitart.no2.mvstore.MVStoreModule;
-import org.dizitart.no2.repository.Cursor;
-import org.dizitart.no2.repository.ObjectRepository;
 import org.slf4j.Logger;
-
-import java.io.File;
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
-
-import static org.dizitart.no2.filters.FluentFilter.*;
 
 public final class PlayerProfileManager {
     private PlayerProfileManager() {}
+    private static File dataFile;
 
+    static final Gson gson = new GsonBuilder().enableComplexMapKeySerialization()
+            .create();
     static Logger logger;
-    static MVStoreModule storeModule;
-    static Nitrite db;
-    static ObjectRepository<PlayerProfile> repository;
+    static Map<UUID, PlayerProfile> profiles = new HashMap<>();
     static boolean ready;
 
     public static void init(EnderAssist assist) {
         logger = assist.getSLF4JLogger();
-        logger.info("Initialising NO2 database");
+        dataFile = new File(assist.getDataFolder(), "profiles.json");
 
-        storeModule = MVStoreModule.withConfig()
-                .filePath(new File(assist.getDataFolder(), "profiles.db").getAbsolutePath())
-                .compress(true)
-                .build();
+        if (dataFile.exists()) {
+            try (JsonReader fis = new JsonReader(new InputStreamReader(Files.newInputStream(dataFile.toPath())))) {
+                Type type = new TypeToken<Map<UUID, PlayerProfile>>() {}.getType();
+                profiles = gson.fromJson(fis, type);
+            } catch (FileNotFoundException x) {
+                logger.error("Failed to read", x);
+            } catch (IOException x) {
+                logger.error("Failed to read because of IO Exception", x);
+            }
+        }
 
-        db = Nitrite.builder()
-                .loadModule(storeModule)
-                .openOrCreate();
-
-        repository = db.getRepository(PlayerProfile.class, "profiles");
-        logger.info("NO2 database ready");
+        // legacy support
         ready = true;
     }
 
@@ -60,30 +64,11 @@ public final class PlayerProfileManager {
     }
 
     public static PlayerProfile get(UUID uuid) {
-        Cursor<PlayerProfile> cursor = repository.find(where("uuid").eq(uuid));
-
-        if (cursor.isEmpty()) {
-            PlayerProfile pf = new PlayerProfile(uuid);
-            repository.insert(pf);
-            return pf;
-        }
-
-        if (cursor.size() > 1) {
-            throw new IllegalStateException("You cannot have two profiles with same UUID!");
-        }
-
-        for (PlayerProfile profile : cursor) {
-            // SonarLint users: Blame nitrite for this
-            return profile;
-        }
-
-        PlayerProfile pf = new PlayerProfile(uuid);
-        repository.insert(pf);
-        return pf;
+        return profiles.computeIfAbsent(uuid, x -> new PlayerProfile(uuid));
     }
 
-    public static void put(PlayerProfile profile) {
-        repository.update(profile);
+    public static void put(UUID uuid, PlayerProfile profile) {
+        profiles.put(uuid, profile);
     }
 
     /**
@@ -91,11 +76,10 @@ public final class PlayerProfileManager {
      * this method fails silently.
      */
     public static void save() {
-        if (!ready) return;
-
-        if (db.hasUnsavedChanges()) {
-            logger.info("Unsaved changes detected, saving NO2 database");
-            db.commit();
+        try (JsonWriter jw = new JsonWriter(new OutputStreamWriter(Files.newOutputStream(dataFile.toPath())))) {
+            gson.toJson(jw);
+        } catch (IOException x) {
+            logger.error("Failed to save", x);
         }
     }
 
@@ -105,9 +89,6 @@ public final class PlayerProfileManager {
     public static void shutdown() {
         if (!ready) return;
 
-        if (!db.isClosed()) {
-            logger.info("Closing NO2 database. This may take some time.");
-            db.close();
-        }
+        save();
     }
 }

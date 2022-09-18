@@ -16,7 +16,6 @@
 
 package io.github.withlithum.enderassist.events;
 
-import io.github.withlithum.enderassist.io.PlayerProfileManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -37,7 +36,7 @@ public class EntityListener implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         Player killer = event.getEntity().getKiller();
 
-        if (killer != null && PlayerProfileManager.get(killer.getUniqueId()).showStatus()) {
+        if (killer != null) {
             killer.playSound(killer.getLocation(), Sound.BLOCK_PISTON_CONTRACT, SoundCategory.MASTER,1.0f, 1.0f);
             killer.sendActionBar(Component.text(event.getEntity().getName()).decorate(TextDecoration.ITALIC)
                             .append(Component.text("|").color(NamedTextColor.WHITE))
@@ -62,18 +61,16 @@ public class EntityListener implements Listener {
             return;
         }
 
-        if (PlayerProfileManager.get(player.getUniqueId()).showStatus()) {
-            Component component = Component.text(target.getName())
-                    .append(Component.text('[').color(NamedTextColor.WHITE))
-                    .append(Component.text(Math.round(target.getHealth() - event.getDamage())).color(NamedTextColor.RED))
-                    .append(Component.text('/').color(NamedTextColor.GRAY))
-                    .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
-                    .append(Component.text("] ").color(NamedTextColor.WHITE))
-                    .append(Component.text('✄').color(NamedTextColor.YELLOW))
-                    .append(Component.text(Math.round(event.getDamage())));
+        Component component = Component.text(target.getName())
+                .append(Component.text('[').color(NamedTextColor.WHITE))
+                .append(Component.text(Math.round(target.getHealth() - event.getDamage())).color(NamedTextColor.RED))
+                .append(Component.text('/').color(NamedTextColor.GRAY))
+                .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
+                .append(Component.text("] ").color(NamedTextColor.WHITE))
+                .append(Component.text('✄').color(NamedTextColor.YELLOW))
+                .append(Component.text(Math.round(event.getDamage())));
 
-            player.sendActionBar(component);
-        }
+        player.sendActionBar(component);
     }
 
     @EventHandler
@@ -106,13 +103,11 @@ public class EntityListener implements Listener {
         Player player = (Player) launcher;
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 1.0f, 1.0f);
-        if (PlayerProfileManager.get(player.getUniqueId()).showStatus()) {
-            player.sendActionBar(Component.text(hit.getName())
-                    .append(Component.text('[').color(NamedTextColor.WHITE))
-                    .append(Component.text(Math.round(target.getHealth())).color(NamedTextColor.RED))
-                    .append(Component.text('/').color(NamedTextColor.GRAY))
-                    .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
-                    .append(Component.text("] ").color(NamedTextColor.WHITE)));
-        }
+        player.sendActionBar(Component.text(hit.getName())
+                .append(Component.text('[').color(NamedTextColor.WHITE))
+                .append(Component.text(Math.round(target.getHealth())).color(NamedTextColor.RED))
+                .append(Component.text('/').color(NamedTextColor.GRAY))
+                .append(Component.text(Math.round(maxHealth.getValue())).color(NamedTextColor.AQUA))
+                .append(Component.text("] ").color(NamedTextColor.WHITE)));
     }
 }

@@ -20,15 +20,9 @@ import io.github.withlithum.enderassist.EnderAssist;
 import io.github.withlithum.enderassist.PlayerUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public final class Commands {
@@ -47,13 +41,6 @@ public final class Commands {
 
         get("tps").setExecutor(new TpsCommand());
         get("tps").setTabCompleter(EMPTY_COMPLETER);
-
-        // show status
-        PluginCommand command = get("showstatus");
-        ShowStatusCommand cmd = new ShowStatusCommand();
-
-        command.setExecutor(cmd);
-        command.setTabCompleter(EMPTY_COMPLETER);
     }
 
     public static Component onOff(boolean bool) {

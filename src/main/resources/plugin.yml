@@ -16,10 +16,6 @@ commands:
     description: 显示当前 TPS
     usage: /<command>
     permission: enderassist.commands.tps
-  showstatus:
-    description: 切换是否（例如在攻击生物时）显示各种快捷栏信息（比如目标生命值）
-    usage: /<command>
-    permission: enderassist.commands.showstatus
 
 permissions:
   enderassist.commands.bed:

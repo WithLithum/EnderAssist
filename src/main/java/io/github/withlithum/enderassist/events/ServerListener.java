@@ -52,7 +52,7 @@ public class ServerListener implements Listener {
         else
         {
             component = PlayerUtil.getInfo(String.format(PlayerUtil.msg("raid_end_win_pl"),
-                    winners.get(0),
+                    winners.get(0).getName(),
                     loc.getBlockX(),
                     loc.getBlockY(),
                     loc.getBlockZ()));
@@ -80,9 +80,6 @@ public class ServerListener implements Listener {
 
         for (Player player : players) {
             PlayerUtil.sendInfo(player, String.format(PlayerUtil.msg("raid_update"),
-                    raid.getLocation().getBlockX(),
-                    raid.getLocation().getBlockY(),
-                    raid.getLocation().getBlockZ(),
                     raid.getSpawnedGroups(),
                     raid.getTotalGroups()));
         }

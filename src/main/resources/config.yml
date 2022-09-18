@@ -14,7 +14,7 @@ messages:
   patrol_msg: "野生的灾厄巡逻队出现在 %1$s, %2$s, %3$s！"
   trader_msg: "野生的流浪商人出现在 %1$s, %2$s, %3$s！"
   raid_msg: "玩家 %1$s 引发了一场针对其所在村庄的袭击！"
-  raid_update: "新一批敌人生成位置位于 %1$s, %2$s, %3$s（第 %4$s 批，共 %5$s 批）"
+  raid_update: "袭击：第 %1$s 批，共 %2$s 批"
   raid_end_draw: "位于 %1$s, %2$s, %3$s 的袭击以平局告终"
   raid_end_fail: "未能抵御位于 %1$s, %2$s, %3$s 的袭击！"
   raid_end_win: "成功抵御了位于 %1$s, %2$s, %3$s 的袭击！"

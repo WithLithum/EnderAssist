@@ -1,0 +1,29 @@
+name: EnderAssist
+version: '${project.version}'
+main: io.github.withlithum.enderassist.EnderAssist
+api-version: 1.16
+depend: []
+commands:
+  bed:
+    description: 传送回你的个人重生点（床、重生锚等）
+    usage: /<command>
+    permission: enderassist.commands.bed
+  enderassist:
+    description: 显示版本或重载配置
+    usage: /<command> <reload|version>
+    permission: enderassist.commands.meta
+  tps:
+    description: 显示当前 TPS
+    usage: /<command>
+    permission: enderassist.commands.tps
+
+permissions:
+  enderassist.commands.bed:
+    default: true
+    description: 使用 bed 命令
+  enderassist.commands.meta:
+    default: op
+    description: 使用 enderassist 命令
+  enderassist.commands.tps:
+    default: true
+    description: 使用 tps 命令

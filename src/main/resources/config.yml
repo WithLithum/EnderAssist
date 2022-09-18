@@ -1,0 +1,9 @@
+message-format:
+  alert: "&c⚠ &e%s"
+  invalid-args: "&c⚠ &e%1$s: &f&l参数无效: &c%2$s"
+  info: "&a✿ &b%s"
+
+messages:
+  spawn_not_valid: "你没有有效的重生点（尝试使用床或重生锚）"
+  invalid_args: "参数无效"
+  tps_result: "当前 TPS 为: %s"

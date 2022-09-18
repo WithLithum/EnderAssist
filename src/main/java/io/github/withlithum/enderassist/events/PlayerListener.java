@@ -16,14 +16,44 @@
 
 package io.github.withlithum.enderassist.events;
 
+import org.bukkit.CropState;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
+import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.*;
 
 public class PlayerListener implements Listener {
     private static final Map<UUID, Long> LastDeath = new HashMap<>();
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if (event.getClickedBlock() == null) {
+            return;
+        }
+
+        BlockData data = event.getClickedBlock().getBlockData();
+        if ((data.getMaterial() == Material.WHEAT_SEEDS || data.getMaterial() == Material.POTATOES
+            || data.getMaterial() == Material.CARROTS || data.getMaterial() == Material.BEETROOTS)
+        && data instanceof Ageable){
+            Ageable ageable = (Ageable) data;
+            if (ageable.getAge() == 7) {
+                Material material = data.getMaterial();
+                Location location = event.getClickedBlock().getLocation();
+                World world = event.getClickedBlock().getWorld();
+                event.getClickedBlock().breakNaturally();
+
+                Block b = world.getBlockAt(location);
+                b.setType(material);
+            }
+        }
+    }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {

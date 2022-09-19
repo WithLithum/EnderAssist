@@ -1,7 +1,7 @@
 name: EnderAssist
 version: '${project.version}'
 main: io.github.withlithum.enderassist.EnderAssist
-api-version: 1.16
+api-version: 1.17
 depend: []
 commands:
   bed:

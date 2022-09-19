@@ -17,7 +17,6 @@
 package io.github.withlithum.enderassist.events;
 
 import com.destroystokyo.paper.event.entity.EndermanAttackPlayerEvent;
-import com.destroystokyo.paper.event.entity.EndermanEscapeEvent;
 import io.github.withlithum.enderassist.PlayerUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

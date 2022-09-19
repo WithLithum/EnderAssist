@@ -56,6 +56,7 @@ public class PlayerListener implements Listener {
             World world = event.getClickedBlock().getWorld();
             var drop = event.getClickedBlock().getDrops();
             ageable.setAge(0);
+            event.getClickedBlock().setBlockData(ageable);
 
             for (var dr : drop) {
                 if (PlayerUtil.isSeed(dr.getType())) {

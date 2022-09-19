@@ -42,7 +42,7 @@ public class SyncTask extends BukkitRunnable {
     public static final String SATURATION_KEY = "appleskin:saturation_sync";
     public static final String EXHAUSTION_KEY = "appleskin:exhaustion_sync";
 
-    private final float MINIMUM_EXHAUSTION_CHANGE_THRESHOLD = 0.01F;
+    private static final float MINIMUM_EXHAUSTION_CHANGE_THRESHOLD = 0.01F;
 
     private final EnderAssist appleSkinSpigotPlugin;
     private final Map<UUID, Float> previousSaturationLevels;
@@ -77,14 +77,9 @@ public class SyncTask extends BukkitRunnable {
         }
     }
 
-    public void onPlayerLogIn(Player player) {
+    @SuppressWarnings("unused")
+    public void refresh(Player player) {
         previousSaturationLevels.remove(player.getUniqueId());
         previousExhaustionLevels.remove(player.getUniqueId());
     }
-
-    public void onPlayerLogOut(Player player) {
-        previousSaturationLevels.remove(player.getUniqueId());
-        previousExhaustionLevels.remove(player.getUniqueId());
-    }
-
 }

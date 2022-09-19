@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+@SuppressWarnings("unused")
 public final class PlayerUtil {
     private PlayerUtil() {}
 
@@ -73,8 +74,8 @@ public final class PlayerUtil {
         List<Player> nearby = new ArrayList<>();
 
         for (Entity e : getNearbyEntities(loc, range)){
-            if (e instanceof Player){
-                nearby.add((Player) e);
+            if (e instanceof Player player){
+                nearby.add(player);
             }
         }
         return nearby;

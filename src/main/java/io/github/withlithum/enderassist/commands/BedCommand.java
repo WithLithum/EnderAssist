@@ -24,6 +24,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("unused")
 public class BedCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -32,12 +33,11 @@ public class BedCommand implements CommandExecutor {
             return false;
         }
 
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             PlayerUtil.sendAlert(sender, "此命令只能由玩家执行");
             return false;
         }
 
-        Player player = (Player)sender;
         Location spawn = player.getBedSpawnLocation();
         if (spawn == null) {
             PlayerUtil.sendAlert(sender, PlayerUtil.msg("spawn_not_valid"));

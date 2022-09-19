@@ -31,11 +31,11 @@ public class SyncTaskListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        task.onPlayerLogIn(event.getPlayer());
+        task.refresh(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        task.onPlayerLogOut(event.getPlayer());
+        task.refresh(event.getPlayer());
     }
 }

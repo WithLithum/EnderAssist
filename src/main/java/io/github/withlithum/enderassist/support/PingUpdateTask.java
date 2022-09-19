@@ -21,6 +21,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+@SuppressWarnings("unused")
 public class PingUpdateTask extends BukkitRunnable {
 
     @Override

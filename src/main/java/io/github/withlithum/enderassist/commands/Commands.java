@@ -25,6 +25,7 @@ import org.bukkit.command.PluginCommand;
 
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public final class Commands {
     private static final EmptyCompleter EMPTY_COMPLETER = new EmptyCompleter();
 

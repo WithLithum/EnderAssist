@@ -103,11 +103,9 @@ public class EntityListener implements Listener {
             return;
         }
         Player player;
-
-        if (event.getDamager() instanceof Player) {
-            player = (Player) event.getDamager();
-        } else if (event.getDamager() instanceof Projectile) {
-            Projectile projectile = (Projectile) event.getDamager();
+        if (event.getDamager() instanceof Player p1) {
+            player = p1;
+        } else if (event.getDamager() instanceof Projectile projectile) {
             if (!(projectile.getShooter() instanceof Player)) {
                 return;
             }
@@ -117,11 +115,10 @@ public class EntityListener implements Listener {
             return;
         }
 
-        if (!(event.getEntity() instanceof Mob)) {
+        if (!(event.getEntity() instanceof Mob target)) {
             return;
         }
 
-        Mob target = (Mob) event.getEntity();
         AttributeInstance maxHealth = target.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (maxHealth == null) {
             return;
@@ -152,12 +149,11 @@ public class EntityListener implements Listener {
             return;
         }
 
-        if (!(hit instanceof Mob)) {
+        if (!(hit instanceof Mob target)) {
             return;
         }
-        Mob target = (Mob) hit;
 
-        if (!(launcher instanceof Player)) {
+        if (!(launcher instanceof Player player)) {
             return;
         }
 
@@ -165,8 +161,6 @@ public class EntityListener implements Listener {
         if (maxHealth == null) {
             return;
         }
-
-        Player player = (Player) launcher;
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.MASTER, 1.0f, 1.0f);
     }

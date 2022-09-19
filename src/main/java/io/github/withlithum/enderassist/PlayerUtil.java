@@ -19,6 +19,7 @@ package io.github.withlithum.enderassist;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
@@ -59,6 +60,13 @@ public final class PlayerUtil {
             rtrn.put(en.getLocation().distance(loc), en);
         }
         return new ArrayList<>(rtrn.values());
+    }
+
+    public static boolean isSeed(Material material) {
+        return material == Material.WHEAT_SEEDS
+                || material == Material.BEETROOT_SEEDS
+                || material == Material.POTATO
+                || material == Material.CARROTS;
     }
 
     public static List<Player> getNearbyPlayers(Location loc, double range){

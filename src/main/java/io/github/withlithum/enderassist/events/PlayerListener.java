@@ -54,16 +54,18 @@ public class PlayerListener implements Listener {
         BlockData data = event.getClickedBlock().getBlockData();
         if ((data.getMaterial() == Material.WHEAT || data.getMaterial() == Material.POTATOES
             || data.getMaterial() == Material.CARROTS || data.getMaterial() == Material.BEETROOTS)
-        && data instanceof Ageable){
-            Ageable ageable = (Ageable) data;
-            if (ageable.getAge() == 7) {
-                Material material = data.getMaterial();
-                Location location = event.getClickedBlock().getLocation();
-                World world = event.getClickedBlock().getWorld();
-                event.getClickedBlock().breakNaturally();
+        && data instanceof Ageable ageable && ageable.getAge() == 7){
+            Location location = event.getClickedBlock().getLocation();
+            World world = event.getClickedBlock().getWorld();
+            var drop = event.getClickedBlock().getDrops();
+            ageable.setAge(0);
 
-                Block b = world.getBlockAt(location);
-                b.setType(material);
+            for (var dr : drop) {
+                if (PlayerUtil.isSeed(dr.getType())) {
+                    dr.setAmount(dr.getAmount() - 1);
+                }
+
+                world.dropItem(location, dr);
             }
         }
     }

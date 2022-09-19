@@ -88,6 +88,10 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onEndermanAttack(EndermanAttackPlayerEvent event) {
+        if (event.getPlayer().getLocation().distance(event.getEntity().getLocation()) > 7.5) {
+            return;
+        }
+
         // 末影人试图攻击玩家时将会令其发光10秒
         event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.GLOWING,
                 10, 0));

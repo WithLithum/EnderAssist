@@ -17,6 +17,12 @@
 package io.github.withlithum.enderassist.events;
 
 import io.github.withlithum.enderassist.PlayerUtil;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
@@ -25,6 +31,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 
 import java.util.*;
@@ -59,6 +66,18 @@ public class PlayerListener implements Listener {
                 b.setType(material);
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        event.getPlayer().sendPlayerListHeader(Component.text("---> ").color(NamedTextColor.AQUA)
+                .append(Component.text("EnderServ").color(NamedTextColor.WHITE).style(Style.style()
+                        .decoration(TextDecoration.BOLD, true).build()))
+                .append(Component.text(" <---").decoration(TextDecoration.BOLD, false)
+                        .color(NamedTextColor.AQUA)));
+
+        event.getPlayer().sendPlayerListFooter(Component.text("---").color(NamedTextColor.WHITE)
+                .append(Component.text(" ms").color(NamedTextColor.AQUA)));
     }
 
     @EventHandler

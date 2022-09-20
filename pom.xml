@@ -6,7 +6,7 @@
 
     <groupId>io.github.withlithum</groupId>
     <artifactId>EnderAssist</artifactId>
-    <version>0.1.4-alpha</version>
+    <version>alpha-0.1.4a</version>
     <packaging>jar</packaging>
 
     <name>EnderAssist</name>

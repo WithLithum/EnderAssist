@@ -24,6 +24,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.*;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -42,16 +44,62 @@ public class PlayerListener implements Listener {
                 event.getPlayer().getName())));
     }
 
+    public boolean handleBoneMeal(PlayerInteractEvent event) {
+        var hand = event.getHand();
+
+        if (hand == null) {
+            return false;
+        }
+
+        var item = event.getPlayer().getInventory().getItem(hand);
+
+        if (item == null) {
+            return false;
+        }
+
+        var block = event.getClickedBlock();
+
+        if (block == null) {
+            return false;
+        }
+
+        var data = block.getBlockData();
+        if (data instanceof Ageable ageable && data.getMaterial() == Material.SUGAR_CANE) {
+            ageable.setAge(15);
+            event.getPlayer().getInventory().setItem(hand, item.subtract());
+            event.setUseInteractedBlock(Event.Result.DENY);
+            event.getPlayer().swingMainHand();
+
+            block.setBlockData(data);
+            return true;
+        } else {
+            event.setUseInteractedBlock(Event.Result.ALLOW);
+            return false;
+        }
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock() == null) {
             return;
         }
 
+        Player player = event.getPlayer();
+
+        if (handleBoneMeal(event)) {
+            return;
+        }
+
         BlockData data = event.getClickedBlock().getBlockData();
+
+        var ageCheck = 7;
+        if (data.getMaterial() == Material.BEETROOTS) {
+            ageCheck = 3;
+        }
+
         if ((data.getMaterial() == Material.WHEAT || data.getMaterial() == Material.POTATOES
             || data.getMaterial() == Material.CARROTS || data.getMaterial() == Material.BEETROOTS)
-        && data instanceof Ageable ageable && ageable.getAge() == 7){
+        && data instanceof Ageable ageable && ageable.getAge() == ageCheck){
             Location location = event.getClickedBlock().getLocation();
             World world = event.getClickedBlock().getWorld();
             var drop = event.getClickedBlock().getDrops();
@@ -63,8 +111,15 @@ public class PlayerListener implements Listener {
                     dr.setAmount(dr.getAmount() - 1);
                 }
 
+                if (dr.getAmount() == 0) {
+                    continue;
+                }
+
                 world.dropItem(location, dr);
             }
+
+            player.swingMainHand();
+            event.setUseInteractedBlock(Event.Result.DENY);
         }
     }
 

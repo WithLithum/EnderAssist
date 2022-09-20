@@ -65,12 +65,19 @@ public class PlayerListener implements Listener {
 
         var data = block.getBlockData();
         if (data instanceof Ageable ageable && data.getMaterial() == Material.SUGAR_CANE) {
+            if (ageable.getAge() >= 15) {
+                event.setUseInteractedBlock(Event.Result.ALLOW);
+                event.getPlayer().sendActionBar(Component.text("已经催熟过—即将生长，请稍后"));
+                return true;
+            }
+
             ageable.setAge(15);
             event.getPlayer().getInventory().setItem(hand, item.subtract());
             event.setUseInteractedBlock(Event.Result.DENY);
             event.getPlayer().swingMainHand();
 
             block.setBlockData(data);
+            block.getState().update();
             return true;
         } else {
             event.setUseInteractedBlock(Event.Result.ALLOW);

@@ -53,7 +53,7 @@ public class PlayerListener implements Listener {
 
         var item = event.getPlayer().getInventory().getItem(hand);
 
-        if (item == null) {
+        if (item == null || item.getType() != Material.BONE_MEAL) {
             return false;
         }
 

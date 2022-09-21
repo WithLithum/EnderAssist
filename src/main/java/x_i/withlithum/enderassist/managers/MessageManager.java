@@ -50,6 +50,16 @@ public class MessageManager {
         return result;
     }
 
+    public String getRaw(String key) {
+        var entry = configFile.getString(key);
+
+        if (entry == null) {
+            return key;
+        }
+
+        return entry;
+    }
+
     public void reload() {
         cache.clear();
 

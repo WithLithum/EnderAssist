@@ -17,7 +17,7 @@ public class ConfigManager {
     }
 
     public static void create(EnderAssist assist) {
-        if (instance != null) {
+        if (instance == null) {
             instance = new ConfigManager(assist);
         } else {
             throw new IllegalStateException("Already created!");

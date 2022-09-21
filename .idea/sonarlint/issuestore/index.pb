@@ -1,5 +1,5 @@
 
-@
-build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
-t
-Dsrc/main/java/x_i/withlithum/enderassist/managers/ConfigManager.java,d/0/d0271ca656640ba866b4766b5cb31a36a9bf5d6e
+7
+LICENSE,0/3/0398ccd0f49298b10a3d76a47800d2ebecd49859
+u
+Esrc/main/java/x_i/withlithum/enderassist/managers/MessageManager.java,5/a/5a0daa87a97ab2b6b3906d0941a99965a99616bc

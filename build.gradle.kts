@@ -16,6 +16,12 @@ java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
+tasks {
+    compileJava {
+        options.encoding = "UTF-8"
+    }
+}
+
 dependencies {
     paperDevBundle("1.17.1-R0.1-SNAPSHOT")
     // paperweightDevBundle("com.example.paperfork", "1.19.2-R0.1-SNAPSHOT")

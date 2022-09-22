@@ -5,6 +5,7 @@ import x_i.withlithum.enderassist.command.Commands;
 import x_i.withlithum.enderassist.listeners.Listeners;
 import x_i.withlithum.enderassist.managers.ConfigManager;
 import x_i.withlithum.enderassist.managers.MessageManager;
+import x_i.withlithum.enderassist.support.PingUpdateTask;
 import x_i.withlithum.enderassist.support.SyncTask;
 
 /**
@@ -13,6 +14,7 @@ import x_i.withlithum.enderassist.support.SyncTask;
 public class EnderAssist extends JavaPlugin {
     private MessageManager messageManager;
     private SyncTask task;
+    private PingUpdateTask update;
 
     public SyncTask getSyncTask() {
         return task;
@@ -34,7 +36,23 @@ public class EnderAssist extends JavaPlugin {
         task = new SyncTask(this);
         task.runTaskTimer(this, 0, 1);
 
+        update = new PingUpdateTask();
+        update.runTaskTimer(this, 0, 3000);
+
         Listeners.init(this);
+    }
+
+    @Override
+    public void onDisable() {
+        if (task != null) {
+            task.cancel();
+            task = null;
+        }
+
+        if (update != null) {
+            update.cancel();
+            update = null;
+        }
     }
 
     public MessageManager msgManager() {

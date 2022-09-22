@@ -10,9 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftProjectile;
+import org.bukkit.craftbukkit.v1_17_R1.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import x_i.withlithum.enderassist.managers.ConfigManager;
@@ -95,10 +93,6 @@ public final class Game {
 
     public static Player fromBukkit(org.bukkit.entity.Player source) {
         return ((CraftPlayer) source).getHandle();
-    }
-
-    public static Projectile fromBukkit(org.bukkit.entity.Projectile source) {
-        return ((CraftProjectile) source).getHandle();
     }
 
     public static MessageManager messages() {

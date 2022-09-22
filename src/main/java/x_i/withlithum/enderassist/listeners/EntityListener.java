@@ -97,15 +97,16 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onProjectileHit(ProjectileHitEvent event) {
-        var projectile = Game.fromBukkit(event.getEntity());
-
+        var projectile = event.getEntity();
         if (event.getHitEntity() == null) {
             return;
         }
 
-        if (!(projectile.getOwner() instanceof Player player)) {
+        if (!(projectile.getShooter() instanceof org.bukkit.entity.Player pl)) {
             return;
         }
+
+        var player = Game.fromBukkit(pl);
 
         player.playNotifySound(SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.MASTER, 1.0f, 1.0f);
     }

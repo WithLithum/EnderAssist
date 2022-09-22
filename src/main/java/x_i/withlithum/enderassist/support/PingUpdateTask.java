@@ -1,6 +1,5 @@
 package x_i.withlithum.enderassist.support;
 
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundTabListPacket;
 import org.bukkit.scheduler.BukkitRunnable;
 import x_i.withlithum.enderassist.Game;

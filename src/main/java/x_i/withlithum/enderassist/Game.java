@@ -1,23 +1,18 @@
 package x_i.withlithum.enderassist;
 
-import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Projectile;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_17_R1.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import x_i.withlithum.enderassist.managers.ConfigManager;
 import x_i.withlithum.enderassist.managers.MessageManager;
 
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.UUID;
 
 public final class Game {

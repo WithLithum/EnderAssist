@@ -5,7 +5,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import x_i.withlithum.enderassist.Game;
-import x_i.withlithum.enderassist.support.SyncTask;
 
 public class PlayerListener implements Listener {
     @EventHandler

@@ -1,7 +1,5 @@
 package x_i.withlithum.enderassist.listeners;
 
-import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Raid;
 import org.bukkit.entity.Player;
@@ -13,7 +11,6 @@ import org.bukkit.event.raid.RaidStopEvent;
 import x_i.withlithum.enderassist.Game;
 
 import java.util.Collection;
-import java.util.List;
 
 public class WorldListener implements Listener {
     @EventHandler

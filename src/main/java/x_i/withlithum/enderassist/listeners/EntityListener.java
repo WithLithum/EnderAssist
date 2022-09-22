@@ -24,14 +24,20 @@ public class EntityListener implements Listener {
         var entity = Game.fromBukkitEntity(event.getEntity());
 
         if (entity.getType() == EntityType.WANDERING_TRADER) {
-            Game.broadcastTrader(entity);
+            Game.broadcastMsg(Game.messages().getRaw("events.trader_spawn"),
+                    entity.getX(),
+                    entity.getY(),
+                    entity.getZ());
             return;
         }
 
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL
                 && entity instanceof Mob mob
                 && mob.getItemBySlot(EquipmentSlot.HEAD).is(Items.WHITE_BANNER)) {
-            Game.broadcastPatrol(mob);
+            Game.broadcastMsg(Game.messages().getRaw("events.patrol_spawn"),
+                    mob.getX(),
+                    mob.getY(),
+                    mob.getZ());
         }
     }
 

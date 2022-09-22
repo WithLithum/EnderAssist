@@ -2,7 +2,6 @@ package x_i.withlithum.enderassist;
 
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -33,40 +32,12 @@ public final class Game {
         return assist;
     }
 
-    public static void broadcastTrader(@NotNull Entity entity) {
-        var component = new TextComponent(String.format(messages().getRaw("events.trader_spawn"),
-                entity.getX(),
-                entity.getY(),
-                entity.getZ()));
-
-        getServer().getPlayerList().broadcastMessage(component, ChatType.SYSTEM, entity.getUUID());
-    }
-
     public static void broadcast(Component message) {
         getServer().getPlayerList().broadcastMessage(message, ChatType.SYSTEM, ZERO_UUID);
     }
 
-    public static void broadcastPatrol(@NotNull Entity entity) {
-        var component = new TextComponent(String.format(messages().getRaw("events.patrol_spawn"),
-                entity.getX(),
-                entity.getY(),
-                entity.getZ()));
-
-        getServer().getPlayerList().broadcastMessage(component, ChatType.SYSTEM, entity.getUUID());
-    }
-
-    public static void broadcastMsg(String message, double x, double y, double z) {
-        var component = new TextComponent(String.format(message,
-                x,
-                y,
-                z));
-
-        getServer().getPlayerList().broadcastMessage(component, ChatType.SYSTEM, ZERO_UUID);
-    }
-
     public static Component formatMsg(String message, Object @NotNull ... values) {
-        var vl = values.clone();
-        return new TextComponent(String.format(message, vl));
+        return Component.Serializer.fromJson(String.format(message, values));
     }
 
     public static void sendMsg(@NotNull Player player, String message, Object @NotNull ... values) {
@@ -76,8 +47,7 @@ public final class Game {
     }
 
     public static void broadcastMsg(String message, Object @NotNull ... values) {
-        var vl = values.clone();
-        var component = new TextComponent(String.format(message, vl));
+        var component = formatMsg(message, values);
 
         getServer().getPlayerList().broadcastMessage(component, ChatType.SYSTEM, ZERO_UUID);
     }

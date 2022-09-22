@@ -33,6 +33,10 @@ public class EnderAssist extends JavaPlugin {
         messageManager = new MessageManager(this.getDataFolder());
         messageManager.init();
 
+        var messenger = getServer().getMessenger();
+        messenger.registerOutgoingPluginChannel(this, SyncTask.SATURATION_KEY);
+        messenger.registerOutgoingPluginChannel(this, SyncTask.EXHAUSTION_KEY);
+
         task = new SyncTask(this);
         task.runTaskTimer(this, 0, 1);
 

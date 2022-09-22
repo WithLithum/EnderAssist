@@ -5,6 +5,8 @@ commands:
     player_only: '{"text":"此命令只能由玩家执行"}'
   bed:
     spawn_invalid: '{"translate":"block.minecraft.spawn.not_valid"}'
+    clear:
+      success: '{"text":"已清除重生点"}'
 events:
   raid:
     start: '{"text":"位于 %s, %s, %s 的村庄正在被灾厄村民袭击！","color":"magenta"}'

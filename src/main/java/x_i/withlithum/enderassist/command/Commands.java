@@ -11,5 +11,6 @@ public final class Commands {
         PingCommand.register(dispatcher);
         MetaCommand.register(dispatcher);
         BedCommand.register(dispatcher);
+        SpawnCommand.register(dispatcher);
     }
 }

@@ -5,6 +5,7 @@ import x_i.withlithum.enderassist.command.Commands;
 import x_i.withlithum.enderassist.listeners.Listeners;
 import x_i.withlithum.enderassist.managers.ConfigManager;
 import x_i.withlithum.enderassist.managers.MessageManager;
+import x_i.withlithum.enderassist.managers.profiles.ProfileManager;
 import x_i.withlithum.enderassist.support.PingUpdateTask;
 import x_i.withlithum.enderassist.support.SyncTask;
 
@@ -15,15 +16,23 @@ public class EnderAssist extends JavaPlugin {
     private MessageManager messageManager;
     private SyncTask task;
     private PingUpdateTask update;
+    private ProfileManager profileManager;
 
     public SyncTask getSyncTask() {
         return task;
+    }
+
+    public ProfileManager profiles() {
+        return profileManager;
     }
 
     @Override
     public void onEnable() {
         getLog4JLogger().info("Instantiated");
         ConfigManager.create(this);
+        profileManager = new ProfileManager(this);
+        profileManager.init();
+
         Commands.init();
 
         messageManager = new MessageManager(this.getDataFolder());
@@ -44,6 +53,8 @@ public class EnderAssist extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        profileManager.saveAll();
+
         if (task != null) {
             task.cancel();
             task = null;

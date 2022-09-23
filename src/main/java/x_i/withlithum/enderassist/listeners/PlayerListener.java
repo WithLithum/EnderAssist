@@ -14,6 +14,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        var lastSeen = System.currentTimeMillis();
+        var player = Game.fromBukkit(event.getPlayer());
+
+        var uuid = player.getUUID();
+        var profile = Game.getAssist().profiles().get(uuid);
+        profile.lastSeen(lastSeen);
+        Game.getAssist().profiles().put(uuid, profile);
+
         Game.getAssist().getSyncTask().refresh(event.getPlayer());
     }
 }

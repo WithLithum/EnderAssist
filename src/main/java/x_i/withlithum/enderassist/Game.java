@@ -1,12 +1,22 @@
 package x_i.withlithum.enderassist;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_17_R1.block.CraftBlock;
 import org.bukkit.craftbukkit.v1_17_R1.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -56,8 +66,20 @@ public final class Game {
         return ((CraftEntity) source).getHandle();
     }
 
+    public static BlockState fromBukkitBlock(Block block) {
+        return ((CraftBlock) block).getNMS();
+    }
+
     public static Player fromBukkit(org.bukkit.entity.Player source) {
         return ((CraftPlayer) source).getHandle();
+    }
+
+    public static ServerLevel fromBukkit(World world) {
+        return ((CraftWorld) world).getHandle();
+    }
+
+    public static BlockPos fromBukkit(Location location) {
+        return new BlockPos(location.getX(), location.getY(), location.getZ());
     }
 
     public static MessageManager messages() {

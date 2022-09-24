@@ -29,12 +29,6 @@ u
 Esrc/main/java/x_i/withlithum/enderassist/managers/MessageManager.java,5\a\5a0daa87a97ab2b6b3906d0941a99965a99616bc
 q
 Asrc/main/java/x_i/withlithum/enderassist/listeners/Listeners.java,b\5\b523e381ddf283e06aa4e4f267f10c09690d4c50
-u
-Esrc/main/java/x_i/withlithum/enderassist/listeners/WorldListener.java,f\1\f12db269ab91c90e422ee56a0a513782dfff11ee
-v
-Fsrc/main/java/x_i/withlithum/enderassist/listeners/EntityListener.java,8\0\8051674d16ac1941ff44dd2648e251529e8c61d8
-n
->src/main/java/x_i/withlithum/enderassist/command/Commands.java,3\3\331ed1c0013c6a7ea3f965688018877a67b89ae5
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 q
@@ -42,3 +36,7 @@ Asrc/main/java/x_i/withlithum/enderassist/command/MetaCommand.java,b\b\bb5eb9e1
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+@
+build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
+<
+CHANGELOG.md,a\b\ab09011fa121d0a2bb9fa4ca76094f2482b902b7

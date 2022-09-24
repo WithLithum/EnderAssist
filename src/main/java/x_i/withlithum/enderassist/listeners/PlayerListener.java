@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +23,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         var p = event.getPlayer().getPlayerProfile();
-        Game.getAssist().getSyncTask().refresh(event.getPlayer());
 
         var uuid = p.getId();
         var prof = Game.getAssist().profiles().get(uuid);
@@ -40,8 +40,6 @@ public class PlayerListener implements Listener {
         var profile = Game.getAssist().profiles().get(uuid);
         profile.lastSeen(lastSeen);
         Game.getAssist().profiles().put(uuid, profile);
-
-        Game.getAssist().getSyncTask().refresh(event.getPlayer());
     }
 
     public void handleHarvest(PlayerInteractEvent event, BlockPos pos, BlockState st, CropBlock crop, ServerLevel level) {
@@ -58,11 +56,16 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        // Critical code path
         if (event.getClickedBlock() == null) {
             return;
         }
 
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (!(event.getClickedBlock().getBlockData() instanceof Ageable)) {
             return;
         }
 

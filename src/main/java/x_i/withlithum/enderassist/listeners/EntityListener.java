@@ -6,13 +6,12 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.Items;
+import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
@@ -21,29 +20,43 @@ import x_i.withlithum.enderassist.Game;
 public class EntityListener implements Listener {
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        var entity = Game.fromBukkitEntity(event.getEntity());
+        // Critical code path, bukkit API whenever possible
 
-        if (entity.getType() == EntityType.WANDERING_TRADER) {
+        var bEntity = event.getEntity();
+        if (bEntity.getType() == EntityType.WANDERING_TRADER) {
+            var location = bEntity.getLocation();
             Game.broadcastMsg(Game.messages().getRaw("events.trader_spawn"),
-                    entity.getX(),
-                    entity.getY(),
-                    entity.getZ());
+                    location.getX(),
+                    location.getY(),
+                    location.getZ());
             return;
         }
 
         if (event.getSpawnReason() == CreatureSpawnEvent.SpawnReason.PATROL
-                && entity instanceof Mob mob
-                && mob.getItemBySlot(EquipmentSlot.HEAD).is(Items.WHITE_BANNER)) {
+                && bEntity instanceof org.bukkit.entity.Mob mob) {
+            var equipment = mob.getEquipment();
+            var helmet = equipment.getHelmet();
+            if (helmet == null || helmet.getType() != Material.WHITE_BANNER) {
+                return;
+            }
+
+            var location = mob.getLocation();
             Game.broadcastMsg(Game.messages().getRaw("events.patrol_spawn"),
-                    mob.getX(),
-                    mob.getY(),
-                    mob.getZ());
+                    location.getX(),
+                    location.getY(),
+                    location.getZ());
         }
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        if (!(Game.fromBukkitEntity(event.getEntity()) instanceof Mob mob)) {
+        var bEntity = event.getEntity();
+
+        if (!(bEntity instanceof org.bukkit.entity.Mob)) {
+            return;
+        }
+
+        if (!(Game.fromBukkitEntity(bEntity) instanceof Mob mob)) {
             return;
         }
 
@@ -68,7 +81,13 @@ public class EntityListener implements Listener {
             return;
         }
 
-        if (!(Game.fromBukkitEntity(event.getEntity()) instanceof Mob mob)) {
+        var bEntity = event.getEntity();
+
+        if (!(bEntity instanceof org.bukkit.entity.Mob)) {
+            return;
+        }
+
+        if (!(Game.fromBukkitEntity(bEntity) instanceof Mob mob)) {
             return;
         }
 

@@ -4,11 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import x_i.withlithum.enderassist.EnderAssist;
 
-import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ProfileManager {
@@ -16,6 +16,7 @@ public class ProfileManager {
     private final File profilesFolder;
 
     private static final Logger LOGGER = LogManager.getLogger("EA-ProfileMgr");
+    private static final String PROFILE_FORMAT = "%s.dat";
     private final Map<UUID, PlayerProfile> cache = new HashMap<>();
 
     private boolean writable = true;
@@ -41,28 +42,14 @@ public class ProfileManager {
         cache.put(uuid, profile);
     }
 
-    @Nullable
-    public PlayerProfile getIfExists(UUID uuid) {
-        if (cache.containsKey(uuid)) {
-            return cache.get(uuid);
+    public Map.Entry<UUID, PlayerProfile> search(String userName) {
+        for (var prof : cache.entrySet()) {
+            if (Objects.equals(prof.getValue().userName(), userName)) {
+                return prof;
+            }
         }
 
-        var file = new File(profilesFolder, String.format("%s.dat", uuid.toString()));
-
-        if (!file.exists()) {
-            return null;
-        }
-
-        var result = new PlayerProfile();
-
-        try (var dis = new DataInputStream(Files.newInputStream(file.toPath()))) {
-            result.read(dis);
-            return result;
-        } catch (IOException e) {
-            writable = false;
-            LOGGER.warn("IO错误", e);
-            return null;
-        }
+        return null;
     }
 
     public PlayerProfile get(UUID uuid) {
@@ -70,7 +57,7 @@ public class ProfileManager {
             return cache.get(uuid);
         }
 
-        var file = new File(profilesFolder, String.format("%s.dat", uuid.toString()));
+        var file = getProfileFile(uuid);
 
         if (!file.exists()) {
             var result = create(uuid);
@@ -91,8 +78,13 @@ public class ProfileManager {
         }
     }
 
+    public File getProfileFile(UUID uuid) {
+        return new File(profilesFolder, String.format(PROFILE_FORMAT, uuid.toString()));
+    }
+
     public void save(PlayerProfile profile, UUID uuid) {
-        var file = new File(profilesFolder, String.format("%s.dat", uuid.toString()));
+        LOGGER.info("Save {}", uuid);
+        var file = getProfileFile(uuid);
 
         try (var dos = new DataOutputStream(Files.newOutputStream(file.toPath()))) {
             profile.write(dos);

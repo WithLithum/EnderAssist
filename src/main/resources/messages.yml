@@ -9,8 +9,9 @@ commands:
       success: '{"text":"已清除重生点"}'
   lastseen:
     success:
-      not_leaved: '{"text":"此玩家还没有离开过游戏"}'
-      ok: '{"text":"最后一次出现于%s"}'
+      not_leaved: '{"text":"%s还没有离开过游戏"}'
+      ok: '{"text":"%s最后一次出现于%s"}'
+      online: '{"text":"%s当前在线"}'
 events:
   raid:
     start: '{"text":"位于 %s, %s, %s 的村庄正在被灾厄村民袭击！","color":"magenta"}'
@@ -21,4 +22,4 @@ events:
   trader_spawn: '{"text":"野生的流浪商人出现在 %s, %s, %s！","color":"gold"}'
 player_list:
   header: '[{"text":">>> ","color":"aqua"},{"text":"EnderServ","bold":"true","color":"white"},{"text":" <<<","color":"aqua","bold":"false"}]'
-  footer: '[{"text":"%s ","color":"aqua"},{"text":" ms","color":"white"}]'
+  footer: '[{"text":"%s ","color":"aqua"},{"text":"ms","color":"white"}]'

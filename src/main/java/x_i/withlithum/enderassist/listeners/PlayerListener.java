@@ -21,7 +21,14 @@ import x_i.withlithum.enderassist.Game;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        var p = event.getPlayer().getPlayerProfile();
         Game.getAssist().getSyncTask().refresh(event.getPlayer());
+
+        var uuid = p.getId();
+        var prof = Game.getAssist().profiles().get(uuid);
+        prof.userName(p.getName());
+        Game.getAssist().profiles().put(uuid, prof);
+        Game.getAssist().profiles().save(prof, uuid);
     }
 
     @EventHandler

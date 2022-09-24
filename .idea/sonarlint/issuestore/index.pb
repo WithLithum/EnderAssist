@@ -9,8 +9,6 @@
 gradlew.bat,2/a/2a45a911a8f1836b0b6c5b758962572012d8f8c3
 >
 .gitattributes,2/4/24139dae656713ba861751fb2c2ac38839349a7a
-@
-build.gradle.kts,d/b/dbcff70658daf80b53ce624f6adcaa529df5ed8d
 C
 settings.gradle.kts,7/4/749edfcc96398253e5b3416184e95c46621da850
 n
@@ -37,7 +35,10 @@ v
 Fsrc/main/java/x_i/withlithum/enderassist/listeners/EntityListener.java,8\0\8051674d16ac1941ff44dd2648e251529e8c61d8
 n
 >src/main/java/x_i/withlithum/enderassist/command/Commands.java,3\3\331ed1c0013c6a7ea3f965688018877a67b89ae5
-u
-Esrc/main/java/x_i/withlithum/enderassist/command/LastSeenCommand.java,d\3\d36d04cec228c3466a493655ed1e819a1731615a
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
+q
+Asrc/main/java/x_i/withlithum/enderassist/command/MetaCommand.java,b\b\bb5eb9e1b347d66a94e8faf6416e940b1c0f2d1c
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

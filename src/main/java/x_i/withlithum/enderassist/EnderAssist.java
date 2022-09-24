@@ -46,7 +46,7 @@ public class EnderAssist extends JavaPlugin {
         task.runTaskTimer(this, 0, 1);
 
         update = new PingUpdateTask();
-        update.runTaskTimer(this, 0, 3000);
+        update.runTaskTimer(this, 0, 60);
 
         Listeners.init(this);
     }

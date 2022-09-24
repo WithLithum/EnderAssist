@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -76,6 +77,10 @@ public final class Game {
 
     public static ServerLevel fromBukkit(World world) {
         return ((CraftWorld) world).getHandle();
+    }
+
+    public static Vec3 vector(BlockPos pos) {
+        return new Vec3(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static BlockPos fromBukkit(Location location) {

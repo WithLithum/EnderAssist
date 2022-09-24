@@ -1,17 +1,18 @@
 package x_i.withlithum.enderassist.listeners;
 
-import net.kyori.adventure.text.Component;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.BeetrootBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
-import org.bukkit.Material;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.entity.Player;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -36,9 +37,25 @@ public class PlayerListener implements Listener {
         Game.getAssist().getSyncTask().refresh(event.getPlayer());
     }
 
+    public void handleHarvest(PlayerInteractEvent event, BlockPos pos, BlockState st, CropBlock crop, ServerLevel level) {
+        Block.dropResources(st, new LootContext.Builder(level)
+                .withParameter(LootContextParams.ORIGIN, Game.vector(pos))
+                .withParameter(LootContextParams.TOOL, ItemStack.EMPTY));
+        st.setValue(crop.getAgeProperty(), 0);
+        level.destroyBlock(pos, false);
+        level.setBlock(pos, st.setValue(crop.getAgeProperty(), 0), 0);
+        level.blockUpdated(pos, crop);
+        event.setUseInteractedBlock(Event.Result.DENY);
+        event.getPlayer().swingMainHand();
+    }
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getClickedBlock() == null) {
+            return;
+        }
+
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
 
@@ -48,13 +65,9 @@ public class PlayerListener implements Listener {
         var level = Game.fromBukkit(event.getClickedBlock().getWorld());
 
         if (bl instanceof BeetrootBlock beetroot && st.getValue(beetroot.getAgeProperty()) == 3) {
-            Block.dropResources(st, new LootContext.Builder(level));
-            st.setValue(beetroot.getAgeProperty(), 0);
+            handleHarvest(event, pos, st, beetroot, level);
         } else if (bl instanceof CropBlock crop && st.getValue(crop.getAgeProperty()) == 7) {
-            Block.dropResources(st, new LootContext.Builder(level));
-            st.setValue(crop.getAgeProperty(), 0);
+            handleHarvest(event, pos, st, crop, level);
         }
-
-        level.setBlockAndUpdate(pos, st);
     }
 }

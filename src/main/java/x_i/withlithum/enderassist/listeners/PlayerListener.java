@@ -22,24 +22,12 @@ import x_i.withlithum.enderassist.Game;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        var p = event.getPlayer().getPlayerProfile();
-
-        var uuid = p.getId();
-        var prof = Game.getAssist().profiles().get(uuid);
-        prof.userName(p.getName());
-        Game.getAssist().profiles().put(uuid, prof);
-        Game.getAssist().profiles().save(prof, uuid);
+        // Reserved
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        var lastSeen = System.currentTimeMillis();
-        var player = Game.fromBukkit(event.getPlayer());
-
-        var uuid = player.getUUID();
-        var profile = Game.getAssist().profiles().get(uuid);
-        profile.lastSeen(lastSeen);
-        Game.getAssist().profiles().put(uuid, profile);
+        // Reserved
     }
 
     public void handleHarvest(PlayerInteractEvent event, BlockPos pos, BlockState st, CropBlock crop, ServerLevel level) {

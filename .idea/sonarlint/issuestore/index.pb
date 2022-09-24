@@ -27,8 +27,6 @@ q
 Asrc/main/java/x_i/withlithum/enderassist/command/PingCommand.java,8\7\8791f61482ececdd41ff6f1d5c833125450a49bb
 u
 Esrc/main/java/x_i/withlithum/enderassist/managers/MessageManager.java,5\a\5a0daa87a97ab2b6b3906d0941a99965a99616bc
-q
-Asrc/main/java/x_i/withlithum/enderassist/listeners/Listeners.java,b\5\b523e381ddf283e06aa4e4f267f10c09690d4c50
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 q

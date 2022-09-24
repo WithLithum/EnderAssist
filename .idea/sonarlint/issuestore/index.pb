@@ -34,7 +34,3 @@ Asrc/main/java/x_i/withlithum/enderassist/command/MetaCommand.java,b\b\bb5eb9e1
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-@
-build.gradle.kts,d\b\dbcff70658daf80b53ce624f6adcaa529df5ed8d
-<
-CHANGELOG.md,a\b\ab09011fa121d0a2bb9fa4ca76094f2482b902b7

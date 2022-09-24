@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "x_i.withlithum"
-version = "b20220924"
+version = "b20220924-1"
 description = "EnderAssist"
 
 java {

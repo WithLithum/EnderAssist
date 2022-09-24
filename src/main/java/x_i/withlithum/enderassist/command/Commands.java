@@ -12,5 +12,6 @@ public final class Commands {
         MetaCommand.register(dispatcher);
         BedCommand.register(dispatcher);
         SpawnCommand.register(dispatcher);
+        LastSeenCommand.register(dispatcher);
     }
 }

@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import x_i.withlithum.enderassist.EnderAssist;
 
+import javax.annotation.Nullable;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
@@ -38,6 +39,30 @@ public class ProfileManager {
 
     public void put(UUID uuid, PlayerProfile profile) {
         cache.put(uuid, profile);
+    }
+
+    @Nullable
+    public PlayerProfile getIfExists(UUID uuid) {
+        if (cache.containsKey(uuid)) {
+            return cache.get(uuid);
+        }
+
+        var file = new File(profilesFolder, String.format("%s.dat", uuid.toString()));
+
+        if (!file.exists()) {
+            return null;
+        }
+
+        var result = new PlayerProfile();
+
+        try (var dis = new DataInputStream(Files.newInputStream(file.toPath()))) {
+            result.read(dis);
+            return result;
+        } catch (IOException e) {
+            writable = false;
+            LOGGER.warn("IO错误", e);
+            return null;
+        }
     }
 
     public PlayerProfile get(UUID uuid) {

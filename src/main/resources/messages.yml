@@ -7,6 +7,10 @@ commands:
     spawn_invalid: '{"translate":"block.minecraft.spawn.not_valid"}'
     clear:
       success: '{"text":"已清除重生点"}'
+  lastseen:
+    success:
+      not_leaved: '{"text":"此玩家还没有离开过游戏"}'
+      ok: '{"text":"最后一次出现于%s"}'
 events:
   raid:
     start: '{"text":"位于 %s, %s, %s 的村庄正在被灾厄村民袭击！","color":"magenta"}'

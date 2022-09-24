@@ -42,16 +42,6 @@ public class ProfileManager {
         cache.put(uuid, profile);
     }
 
-    public Map.Entry<UUID, PlayerProfile> search(String userName) {
-        for (var prof : cache.entrySet()) {
-            if (Objects.equals(prof.getValue().userName(), userName)) {
-                return prof;
-            }
-        }
-
-        return null;
-    }
-
     public PlayerProfile get(UUID uuid) {
         if (cache.containsKey(uuid)) {
             return cache.get(uuid);
